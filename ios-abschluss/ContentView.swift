@@ -8,14 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var cartViewModel = CartViewModel()
+    @State private var profile = Profile(
+        name: "John",
+        lastName: "Doe",
+        email: "john.doe@example.com",
+        birthDate: Date(),
+        address: "123 Main Street",
+        city: "Somewhere",
+        postalCode: "12345",
+        selectedPaymentMethod: "Credit Card",
+        profileImageName: "profileImage"
+    )
+    @State private var selectedTab: Int = 0
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView(selection: $selectedTab) {
+            HomeView()
+                .tabItem {
+                    Label("Destinations", systemImage: "mappin.circle.fill")
+                }
+                .tag(0)
+                .environmentObject(cartViewModel)
+            
+            CartView(cartViewModel: cartViewModel, profile: $profile, selectedTab: $selectedTab)
+                .tabItem {
+                    Label("Trips", systemImage: "cart")
+                }
+                .tag(1)
+                .environmentObject(cartViewModel)
         }
-        .padding()
     }
 }
 

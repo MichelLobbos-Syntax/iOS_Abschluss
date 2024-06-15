@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		723BA47B2C1E3817000163E9 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723BA47A2C1E3817000163E9 /* CartView.swift */; };
+		723BA47D2C1E3886000163E9 /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723BA47C2C1E3886000163E9 /* CartViewModel.swift */; };
+		723BA47F2C1E38AA000163E9 /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723BA47E2C1E38AA000163E9 /* CartItem.swift */; };
+		723BA4812C1E38C7000163E9 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723BA4802C1E38C7000163E9 /* Profile.swift */; };
 		725082742C18B64200268BAC /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725082732C18B64200268BAC /* SearchBarView.swift */; };
 		725082772C18B75B00268BAC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725082762C18B75B00268BAC /* Product.swift */; };
 		725082792C18B81400268BAC /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725082782C18B81400268BAC /* Api.swift */; };
@@ -43,6 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		723BA47A2C1E3817000163E9 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		723BA47C2C1E3886000163E9 /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		723BA47E2C1E38AA000163E9 /* CartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItem.swift; sourceTree = "<group>"; };
+		723BA4802C1E38C7000163E9 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		725082732C18B64200268BAC /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		725082762C18B75B00268BAC /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		725082782C18B81400268BAC /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
@@ -89,6 +97,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		723BA4792C1E3802000163E9 /* CartScreen */ = {
+			isa = PBXGroup;
+			children = (
+				723BA47A2C1E3817000163E9 /* CartView.swift */,
+				723BA47C2C1E3886000163E9 /* CartViewModel.swift */,
+			);
+			path = CartScreen;
+			sourceTree = "<group>";
+		};
 		725082752C18B73500268BAC /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +113,8 @@
 				725082782C18B81400268BAC /* Api.swift */,
 				7250827C2C18B9A500268BAC /* Category.swift */,
 				725082822C18BCC900268BAC /* DetailScreen */,
+				723BA47E2C1E38AA000163E9 /* CartItem.swift */,
+				723BA4802C1E38C7000163E9 /* Profile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -131,6 +150,7 @@
 		7278DE8A2C17783F006A1DDF /* ios-abschluss */ = {
 			isa = PBXGroup;
 			children = (
+				723BA4792C1E3802000163E9 /* CartScreen */,
 				725082752C18B73500268BAC /* Model */,
 				7278DEB52C177860006A1DDF /* HomeScreen */,
 				7278DE8B2C17783F006A1DDF /* ios_abschlussApp.swift */,
@@ -309,11 +329,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				725082742C18B64200268BAC /* SearchBarView.swift in Sources */,
+				723BA4812C1E38C7000163E9 /* Profile.swift in Sources */,
 				7278DEB72C17787C006A1DDF /* HomeView.swift in Sources */,
 				7250827B2C18B96200268BAC /* HomeViewModel.swift in Sources */,
+				723BA47D2C1E3886000163E9 /* CartViewModel.swift in Sources */,
 				725082772C18B75B00268BAC /* Product.swift in Sources */,
 				725082792C18B81400268BAC /* Api.swift in Sources */,
+				723BA47F2C1E38AA000163E9 /* CartItem.swift in Sources */,
 				725082842C18BCE200268BAC /* DetailView.swift in Sources */,
+				723BA47B2C1E3817000163E9 /* CartView.swift in Sources */,
 				7278DE8E2C17783F006A1DDF /* ContentView.swift in Sources */,
 				725082812C18BBF400268BAC /* FilterButtonView.swift in Sources */,
 				7250827F2C18BB5700268BAC /* ProductCardView.swift in Sources */,

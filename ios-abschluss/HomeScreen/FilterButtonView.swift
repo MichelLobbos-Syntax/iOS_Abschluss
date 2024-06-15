@@ -9,20 +9,62 @@ import SwiftUI
 
 struct FilterButtonView: View {
     let title: String
-    @Binding var selectedCountry: String?
-    let country: String?
+    let icon: String
+    @Binding var selectedCategory: String?
+    let category: String?
     
     var body: some View {
         Button(action: {
-            selectedCountry = country
+            withAnimation {
+                selectedCategory = category
+            }
         }) {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(selectedCategory == category ? .white : .primary)
+                Text(title)
+                    .foregroundColor(selectedCategory == category ? .white : .primary)
+            }
+            .padding()
+            .background(selectedCategory == category ? Color.blue : Color(UIColor.systemGray5))
+            .cornerRadius(10)
+            .shadow(color: selectedCategory == category ? Color.blue.opacity(0.5) : Color.gray.opacity(0.5), radius: 10, x: 0, y: 0) // Enhanced shadow for 3D effect
+            .scaleEffect(selectedCategory == category ? 1.05 : 1.0) // Slightly larger scale for selected button
+            .rotation3DEffect(
+                Angle(degrees: selectedCategory == category ? 5 : 0),
+                axis: (x: 10.0, y: 10.0, z: 0.0)
+            ) // 3D rotation effect for selected button
+            .padding(.vertical)
+        }
+    }
+}
+
+struct FilterButtonView_Previews: PreviewProvider {
+    @State static var selectedCategory: String? = "All"
+
+    static var previews: some View {
+        Group {
+            VStack(spacing: 10) {
+                FilterButtonView(title: "All", icon: "rectangle.grid.2x2", selectedCategory: $selectedCategory, category: nil)
+                FilterButtonView(title: "Electronics", icon: "ipad", selectedCategory: $selectedCategory, category: "electronics")
+                FilterButtonView(title: "Jewelery", icon: "sparkles", selectedCategory: $selectedCategory, category: "jewelery")
+                FilterButtonView(title: "Men's Clothing", icon: "tshirt", selectedCategory: $selectedCategory, category: "men's clothing")
+                FilterButtonView(title: "Women's Clothing", icon: "handbag", selectedCategory: $selectedCategory, category: "women's clothing")
+            }
+            .padding()
+            .previewDisplayName("Light Mode")
+            .environment(\.colorScheme, .light) // Light mode preview
             
-            Text(title)
-                .padding()
-                .fontWeight(selectedCountry == country ? .bold : .light)
-                .background(selectedCountry == country ? Color.blue : Color.gray.opacity(0.2))
-                .foregroundColor(selectedCountry == country ? .white : .black)
-                .cornerRadius(8)
+            VStack(spacing: 10) {
+                FilterButtonView(title: "All", icon: "rectangle.grid.2x2", selectedCategory: $selectedCategory, category: nil)
+                FilterButtonView(title: "Electronics", icon: "ipad", selectedCategory: $selectedCategory, category: "electronics")
+                FilterButtonView(title: "Jewelery", icon: "sparkles", selectedCategory: $selectedCategory, category: "jewelery")
+                FilterButtonView(title: "Men's Clothing", icon: "tshirt", selectedCategory: $selectedCategory, category: "men's clothing")
+                FilterButtonView(title: "Women's Clothing", icon: "handbag", selectedCategory: $selectedCategory, category: "women's clothing")
+            }
+            .padding()
+            .previewDisplayName("Dark Mode")
+            .environment(\.colorScheme, .dark) // Dark mode preview
         }
     }
 }

@@ -9,39 +9,64 @@ import SwiftUI
 
 struct ProductCardView: View {
     let product: Product
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            AsyncImage(url: URL(string: product.image)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 120)
-                    .padding(.horizontal)
-            } placeholder: {
-                ProgressView()
-                    .frame(height: 120)
-                    .padding(.horizontal)
+        VStack {
+            AsyncImage(url: URL(string: product.image)) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150) // Fixed height for the image
+                } else if phase.error != nil {
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150) // Fixed height for the placeholder
+                        .foregroundColor(.gray)
+                } else {
+                    ProgressView()
+                        .frame(height: 150) // Fixed height for the progress view
+                }
             }
+            .cornerRadius(10)
             
             Text(product.title)
                 .font(.headline)
-                .foregroundColor(.primary)
-            Text(product.description)
+                .padding(.top, 5)
+                .frame(maxWidth: .infinity, alignment: .leading) // Ensure text is aligned
+            Text("\(product.price, specifier: "%.2f") €")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-            HStack {
-                Text("Price: \(product.price, specifier: "%.2f") €")
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
+                .frame(maxWidth: .infinity, alignment: .leading) // Ensure text is aligned
         }
-        .padding(10)
-        .frame(height: 250)
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.2), radius: 5)
+        .padding(.horizontal)
+        .frame(width: 180, height: 250) // Fixed width and minimum height for the card
+        .background(Color(.systemBackground)) // Use system background color
+        .cornerRadius(10)
+        .shadow(color: Color.gray, radius: 10, x: 5, y: 5) // Enhanced shadow for 3D effect
+        .scaleEffect(0.95) // Slightly smaller scale for 3D effect
+//        .rotation3DEffect(
+//            Angle(degrees: 5),
+//            axis: (x: 10.0, y: 10.0, z: 0.0)
+//        ) // 3D rotation effect
+    }
+}
+
+struct ProductCardView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ProductCardView(product: Product(id: 1, title: "Sample Product", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"))
+                .previewLayout(.sizeThatFits)
+                .padding()
+                .background(Color(.systemBackground))
+                .environment(\.colorScheme, .light)
+            
+            ProductCardView(product: Product(id: 1, title: "Sample Product", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"))
+                .previewLayout(.sizeThatFits)
+                .padding()
+                .background(Color(.systemBackground))
+                .environment(\.colorScheme, .dark)
+        }
     }
 }

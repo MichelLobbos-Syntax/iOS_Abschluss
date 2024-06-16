@@ -5,6 +5,13 @@
 //  Created by Michel Lobbos on 11.06.24.
 //
 
+//
+// DetailView.swift
+// ios-abschluss
+//
+// Created by Michel Lobbos on 11.06.24.
+//
+
 import SwiftUI
 
 struct Review: Identifiable {
@@ -26,6 +33,7 @@ struct DetailView: View {
     @State private var showReviewSheet: Bool = false
     @State private var rating: Int = 3
     @State private var reviewText: String = ""
+    
     
     @EnvironmentObject var cartViewModel: CartViewModel
     

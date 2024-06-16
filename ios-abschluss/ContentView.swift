@@ -37,10 +37,17 @@ struct ContentView: View {
                 }
                 .tag(1)
                 .environmentObject(cartViewModel)
+                .badge(cartViewModel.cartItems.count > 0 ? String(cartViewModel.cartItems.count) : nil)
+                                .environmentObject(cartViewModel)
+                
         }
+//        .preferredColorScheme(.dark) // Dark Mode aktivieren
     }
 }
 
 #Preview {
-    ContentView()
+    
+        ContentView()
+        
+       
 }

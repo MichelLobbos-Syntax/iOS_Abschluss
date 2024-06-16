@@ -33,4 +33,6 @@ class CartViewModel: ObservableObject {
     func totalCost() -> Double {
         cartItems.reduce(0) { $0 + $1.product.price * Double($1.quantity) }
     }
+    
+    
 }

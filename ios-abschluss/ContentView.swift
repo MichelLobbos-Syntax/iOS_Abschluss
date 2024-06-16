@@ -38,16 +38,17 @@ struct ContentView: View {
                 .tag(1)
                 .environmentObject(cartViewModel)
                 .badge(cartViewModel.cartItems.count > 0 ? String(cartViewModel.cartItems.count) : nil)
-                                .environmentObject(cartViewModel)
-                
+            
+            SettingsView(profile: $profile)
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+                .tag(2)
         }
-//        .preferredColorScheme(.dark) // Dark Mode aktivieren
+//        .preferredColorScheme(.dark) // Enable dark mode
     }
 }
 
 #Preview {
-    
-        ContentView()
-        
-       
+    ContentView()
 }

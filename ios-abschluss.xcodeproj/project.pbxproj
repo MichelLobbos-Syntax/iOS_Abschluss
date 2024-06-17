@@ -137,7 +137,6 @@
 				725082762C18B75B00268BAC /* Product.swift */,
 				725082782C18B81400268BAC /* Api.swift */,
 				7250827C2C18B9A500268BAC /* Category.swift */,
-				725082822C18BCC900268BAC /* DetailScreen */,
 				723BA47E2C1E38AA000163E9 /* CartItem.swift */,
 				723BA4802C1E38C7000163E9 /* Profile.swift */,
 			);
@@ -176,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				723BA4822C1F5BAD000163E9 /* SettingScreen */,
+				725082822C18BCC900268BAC /* DetailScreen */,
 				723BA4792C1E3802000163E9 /* CartScreen */,
 				725082752C18B73500268BAC /* Model */,
 				7278DEB52C177860006A1DDF /* HomeScreen */,

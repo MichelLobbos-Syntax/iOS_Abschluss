@@ -36,6 +36,8 @@
 		72DB4F0D2C249E2200F28E6C /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DB4F0C2C249E2200F28E6C /* OrdersView.swift */; };
 		72DB4F0F2C249E8400F28E6C /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DB4F0E2C249E8400F28E6C /* Order.swift */; };
 		72DB4F112C24A02100F28E6C /* OrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DB4F102C24A02100F28E6C /* OrdersViewModel.swift */; };
+		72DB4F132C24BA4C00F28E6C /* OrderRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DB4F122C24BA4C00F28E6C /* OrderRowView.swift */; };
+		72DB4F152C24BAAA00F28E6C /* OrderItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DB4F142C24BAAA00F28E6C /* OrderItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,8 @@
 		72DB4F0C2C249E2200F28E6C /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
 		72DB4F0E2C249E8400F28E6C /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		72DB4F102C24A02100F28E6C /* OrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewModel.swift; sourceTree = "<group>"; };
+		72DB4F122C24BA4C00F28E6C /* OrderRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRowView.swift; sourceTree = "<group>"; };
+		72DB4F142C24BAAA00F28E6C /* OrderItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +257,8 @@
 			children = (
 				72DB4F0C2C249E2200F28E6C /* OrdersView.swift */,
 				72DB4F102C24A02100F28E6C /* OrdersViewModel.swift */,
+				72DB4F122C24BA4C00F28E6C /* OrderRowView.swift */,
+				72DB4F142C24BAAA00F28E6C /* OrderItemView.swift */,
 			);
 			path = OrdersScreen;
 			sourceTree = "<group>";
@@ -391,6 +397,7 @@
 				723BA4812C1E38C7000163E9 /* Profile.swift in Sources */,
 				7278DEB72C17787C006A1DDF /* HomeView.swift in Sources */,
 				7250827B2C18B96200268BAC /* HomeViewModel.swift in Sources */,
+				72DB4F152C24BAAA00F28E6C /* OrderItemView.swift in Sources */,
 				72DB4F112C24A02100F28E6C /* OrdersViewModel.swift in Sources */,
 				723BA47D2C1E3886000163E9 /* CartViewModel.swift in Sources */,
 				72DB4F0D2C249E2200F28E6C /* OrdersView.swift in Sources */,
@@ -400,6 +407,7 @@
 				725082792C18B81400268BAC /* Api.swift in Sources */,
 				723BA47F2C1E38AA000163E9 /* CartItem.swift in Sources */,
 				72DB4F0A2C249A5700F28E6C /* FavoritesListView.swift in Sources */,
+				72DB4F132C24BA4C00F28E6C /* OrderRowView.swift in Sources */,
 				725082842C18BCE200268BAC /* DetailView.swift in Sources */,
 				72DB4F052C2491B200F28E6C /* FavoritesViewModel.swift in Sources */,
 				723BA4862C1F5BE9000163E9 /* ProfileView.swift in Sources */,

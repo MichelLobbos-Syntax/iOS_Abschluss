@@ -35,8 +35,9 @@ struct HomeView: View {
                     .padding(.horizontal)
                 }
             }
-            .navigationTitle("Abschluss")
+//            .navigationTitle("Abschluss")
             .toolbar {
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: FavoritesListView()) {
                         Image(systemName: "heart.fill")

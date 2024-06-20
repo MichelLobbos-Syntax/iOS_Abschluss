@@ -28,7 +28,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             HomeView()
                 .tabItem {
-                    Label("Destinations", systemImage: "mappin.circle.fill")
+                    Label("Store", systemImage: "storefront")
                 }
                 .tag(0)
                 .environmentObject(HomeViewModel())
@@ -37,25 +37,28 @@ struct ContentView: View {
             
             CartView(cartViewModel: cartViewModel, profile: $profile, selectedTab: $selectedTab)
                 .tabItem {
-                    Label("Trips", systemImage: "cart")
+                    Label("Cart", systemImage: "cart")
                 }
                 .tag(1)
                 .environmentObject(cartViewModel)
                 .environmentObject(ordersViewModel)
                 .badge(cartViewModel.cartItems.count > 0 ? String(cartViewModel.cartItems.count) : nil)
             
-            SettingsView(profile: $profile)
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
-                }
-                .tag(2)
             
             OrdersView()
                 .tabItem {
                     Label("Orders", systemImage: "list.bullet")
                 }
-                .tag(3)
+                .tag(2)
                 .environmentObject(ordersViewModel)
+            
+            SettingsView(profile: $profile)
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+                .tag(3)
+            
+            
         }
 //                .preferredColorScheme(.dark) // Enable dark mode
     }

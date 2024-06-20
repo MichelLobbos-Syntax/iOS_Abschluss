@@ -11,53 +11,54 @@ struct OrdersView: View {
     @EnvironmentObject var ordersViewModel: OrdersViewModel
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                if ordersViewModel.orders.isEmpty {
-                    Text("No orders yet.")
-                        .font(.title)
-                        .foregroundColor(.gray)
-                } else {
-                    List {
-                        ForEach(ordersViewModel.orders) { order in
-                            VStack(alignment: .leading) {
-                                Text("Order ID: \(order.id.uuidString)")
-                                    .font(.headline)
-                                Text("Date: \(order.date, formatter: dateFormatter)")
-                                    .font(.subheadline)
-                                Text("Total Price: \(order.totalPrice, specifier: "%.2f") €")
-                                    .font(.subheadline)
-                                
-                                ForEach(order.items) { item in
-                                    HStack {
-                                        Text(item.product.title)
-                                        Spacer()
-                                        Text("\(item.quantity) x \(item.price, specifier: "%.2f") €")
-                                    }
-                                }
-                            }
-                            .padding()
-                        }
+        VStack{
+            Text("Orders")
+                .font(.largeTitle)
+            
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(ordersViewModel.orders) { order in
+                        OrderRowView(order: order)
                     }
                 }
+                .padding()
             }
-            .navigationTitle("Orders")
         }
-    }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter
+         
     }
 }
 
-struct OrdersView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            OrdersView()
-                .environmentObject(OrdersViewModel())
-        }
-    }
-}
+
+
+//struct OrdersView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let sampleOrders = [
+//            OrderModel(
+//                id: UUID(),
+//                date: Date(),
+//                items: [
+//                    CartItem(id: UUID(), product: Product(id: 1, title: "Sample Product 1", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"), quantity: 1, color: "Red", size: "M"),
+//                    CartItem(id: UUID(), product: Product(id: 2, title: "Sample Product 2", price: 19.99, description: "Another sample product description.", category: "electronics", image: "https://via.placeholder.com/150"), quantity: 2, color: "Green", size: "L")
+//                ],
+//                totalPrice: 69.97
+//            ),
+//            OrderModel(
+//                id: UUID(),
+//                date: Date(),
+//                items: [
+//                    CartItem(id: UUID(), product: Product(id: 3, title: "Sample Product 3", price: 39.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"), quantity: 1, color: "Blue", size: "S")
+//                ],
+//                totalPrice: 39.99
+//            )
+//        ]
+//        
+//        let ordersViewModel = OrdersViewModel()
+//        ordersViewModel.orders = sampleOrders
+//        
+//        return NavigationStack {
+//            OrdersView()
+//                .environmentObject(ordersViewModel)
+//        }
+//    }
+//}
+

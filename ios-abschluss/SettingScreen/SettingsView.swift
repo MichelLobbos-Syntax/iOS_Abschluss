@@ -5,13 +5,6 @@
 //  Created by Michel Lobbos on 16.06.24.
 //
 
-//
-//  SettingsView.swift
-//  ios-abschluss
-//
-//  Created by Michel Lobbos on 16.06.24.
-//
-
 import SwiftUI
 
 struct SettingsView: View {
@@ -21,52 +14,43 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Profile").font(.headline)) {
+                NavigationLink(destination: ProfileView(profile: $profile)) {
                     HStack {
                         Image(systemName: "person.crop.circle")
                             .resizable()
                             .frame(width: 24, height: 24)
-                        NavigationLink(destination: ProfileView(profile: $profile)) {
-                            Text("Profile")
-                        }
+                        Text("Profile")
                     }
                 }
                 
-                Section(header: Text("Delivery Address").font(.headline)) {
+                NavigationLink(destination: AddressView(profile: $profile)) {
                     HStack {
                         Image(systemName: "house")
                             .resizable()
                             .frame(width: 24, height: 24)
-                        NavigationLink(destination: AddressView(profile: $profile)) {
-                            Text("Delivery Address")
-                        }
+                        Text("Delivery Address")
                     }
                 }
                 
-                Section(header: Text("Payment Method").font(.headline)) {
+                NavigationLink(destination: PaymentMethodView(profile: $profile)) {
                     HStack {
                         Image(systemName: "creditcard")
                             .resizable()
                             .frame(width: 24, height: 24)
-                        NavigationLink(destination: PaymentMethodView(profile: $profile)) {
-                            Text("Payment Method")
-                        }
+                        Text("Payment Method")
                     }
                 }
                 
-                Section(header: Text("Bestellungen").font(.headline)) {
-                    HStack {
-                        Image(systemName: "bag")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                        NavigationLink(destination: OrdersView(ordersViewModel: ordersViewModel)) {
-                            Text("Bestellungen")
-                        }
-                    }
-                }
+//                NavigationLink(destination: OrdersView(ordersViewModel: ordersViewModel)) {
+//                    HStack {
+//                        Image(systemName: "bag")
+//                            .resizable()
+//                            .frame(width: 24, height: 24)
+//                        Text("Bestellungen")
+//                    }
+//                }
             }
             .navigationTitle("Settings")
-            .listStyle(InsetGroupedListStyle())
         }
     }
 }

@@ -13,4 +13,9 @@ struct CartItem: Identifiable {
     var quantity: Int
     var color: String
     var size: String
+    
+    
+    var price: Double {
+            return product.price
+        }
 }

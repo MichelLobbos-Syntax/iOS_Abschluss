@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CartView: View {
     @ObservedObject var cartViewModel: CartViewModel
+    @EnvironmentObject var orderViewModel: OrdersViewModel
     @Binding var profile: Profile
     @State private var showingSheet = false
     @Binding var selectedTab: Int
     @State private var isDeliveryViewPresented = false
+    
     
     var body: some View {
         VStack {
@@ -109,8 +111,16 @@ struct CartView: View {
                     .padding()
                 Spacer()
                 Button("Bestellen") {
-                    showingSheet.toggle()
-                }
+                                    let newOrder = OrderModel(
+                                        id: UUID(),
+                                        date: Date(),
+                                        items: cartViewModel.cartItems,
+                                        totalPrice: cartViewModel.totalCost()
+                                    )
+                    orderViewModel.addOrder(newOrder)
+                                    //cartViewModel.clearCart() // Clear the cart after ordering
+                                    showingSheet.toggle()
+                                }
                 .padding()
                 .background(Color.blue)
                 .foregroundColor(.white)
@@ -124,6 +134,7 @@ struct CartView: View {
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = CartViewModel()
+        
         viewModel.cartItems = [
             CartItem(product: Product(id: 1, title: "Sample Product 1", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"), quantity: 1, color: "Red", size: "M"),
             CartItem(product: Product(id: 2, title: "Sample Product 2 with Longer Title", price: 19.99, description: "Another sample product description.", category: "electronics", image: "https://via.placeholder.com/150"), quantity: 2, color: "Green", size: "L")

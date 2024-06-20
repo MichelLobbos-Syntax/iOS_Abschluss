@@ -2,10 +2,15 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @State var text : String = ""
+    
     @StateObject var viewModel = HomeViewModel()
+    
     var body: some View {
+        
         NavigationStack {
             VStack(spacing: 8) {
+                
                 // Filter Buttons
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
@@ -29,12 +34,18 @@ struct HomeView: View {
                     }
                     .padding(.horizontal)
                 }
-                
             }
-            .searchable(text: $viewModel.searchText)
-            .navigationTitle("Abschuss")
-            .background(Color(.systemBackground)) // Use system background color
+            .navigationTitle("Abschluss")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: FavoritesListView()) {
+                        Image(systemName: "heart.fill")
+                    }
+                }
+            }
         }
+        .searchable(text: $viewModel.searchText)
+        .background(Color(.systemBackground)) // Use system background color
     }
 }
 
@@ -42,6 +53,9 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             HomeView()
+                .environmentObject(HomeViewModel())
+                .environmentObject(FavoritesViewModel())
+                .environmentObject(CartViewModel())
                 .environment(\.colorScheme, .light) // Preview in light mode
 //            HomeView()
 //                .environment(\.colorScheme, .dark) // Preview in dark mode

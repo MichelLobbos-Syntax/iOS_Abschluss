@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var cartViewModel = CartViewModel()
+    @StateObject private var ordersViewModel = OrdersViewModel()
+    
     @State private var profile = Profile(
         name: "John",
         lastName: "Doe",
@@ -29,7 +31,9 @@ struct ContentView: View {
                     Label("Destinations", systemImage: "mappin.circle.fill")
                 }
                 .tag(0)
+                .environmentObject(HomeViewModel())
                 .environmentObject(cartViewModel)
+                .environmentObject(FavoritesViewModel())
             
             CartView(cartViewModel: cartViewModel, profile: $profile, selectedTab: $selectedTab)
                 .tabItem {
@@ -37,6 +41,7 @@ struct ContentView: View {
                 }
                 .tag(1)
                 .environmentObject(cartViewModel)
+                .environmentObject(ordersViewModel)
                 .badge(cartViewModel.cartItems.count > 0 ? String(cartViewModel.cartItems.count) : nil)
             
             SettingsView(profile: $profile)
@@ -44,8 +49,15 @@ struct ContentView: View {
                     Label("Settings", systemImage: "gear")
                 }
                 .tag(2)
+            
+            OrdersView()
+                .tabItem {
+                    Label("Orders", systemImage: "list.bullet")
+                }
+                .tag(3)
+                .environmentObject(ordersViewModel)
         }
-//        .preferredColorScheme(.dark) // Enable dark mode
+//                .preferredColorScheme(.dark) // Enable dark mode
     }
 }
 

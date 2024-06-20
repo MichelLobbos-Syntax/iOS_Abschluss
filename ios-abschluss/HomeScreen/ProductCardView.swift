@@ -17,16 +17,16 @@ struct ProductCardView: View {
                     image
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 150) // Fixed height for the image
+                        .frame(height: 150) 
                 } else if phase.error != nil {
                     Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 150) // Fixed height for the placeholder
+                        .frame(height: 150)
                         .foregroundColor(.gray)
                 } else {
                     ProgressView()
-                        .frame(height: 150) // Fixed height for the progress view
+                        .frame(height: 150)
                 }
             }
             .cornerRadius(10)

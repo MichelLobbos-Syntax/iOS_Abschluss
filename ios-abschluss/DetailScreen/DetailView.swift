@@ -5,12 +5,7 @@
 //  Created by Michel Lobbos on 11.06.24.
 //
 
-//
-// DetailView.swift
-// ios-abschluss
-//
-// Created by Michel Lobbos on 11.06.24.
-//
+
 
 import SwiftUI
 
@@ -23,9 +18,6 @@ struct Review: Identifiable {
 
 struct DetailView: View {
     let product: Product
-    @State private var isFavorite: Bool = false
-    @State private var showToast: Bool = false
-    @State private var toastMessage: String = ""
     @State private var showOrderSheet: Bool = false
     @State private var orderQuantity: Int = 1
     @State private var selectedColor: String = "Red"
@@ -33,42 +25,68 @@ struct DetailView: View {
     @State private var showReviewSheet: Bool = false
     @State private var rating: Int = 3
     @State private var reviewText: String = ""
-    
-    
+    @State private var showToast: Bool = false
+    @State private var toastMessage: String = ""
+
     @EnvironmentObject var cartViewModel: CartViewModel
+    @EnvironmentObject var favoritesViewModel: FavoritesViewModel
     
+
     let colors = ["Red", "Green", "Blue"]
     let sizes = ["S", "M", "L"]
-    
+
     // Beispielbewertungen
     let reviews: [Review] = [
         Review(username: "Alice", rating: 5, text: "Tolles Produkt! Sehr zufrieden."),
         Review(username: "Bob", rating: 4, text: "Gute Qualität, schnelle Lieferung."),
         Review(username: "Charlie", rating: 3, text: "Nicht schlecht, könnte besser sein."),
     ]
-    
+
     var body: some View {
-        
         VStack {
-            AsyncImage(url: URL(string: product.image)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image.resizable()
-                        .scaledToFit()
-                        .frame(height: 200)
-                case .failure:
-                    Image(systemName: "exclamationmark.triangle")
-                        .foregroundColor(.red)
-                @unknown default:
-                    EmptyView()
+            HStack {
+                Spacer()
+                ZStack {
+                    AsyncImage(url: URL(string: product.image)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image.resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                        case .failure:
+                            Image(systemName: "exclamationmark.triangle")
+                                .foregroundColor(.red)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    .padding(.horizontal, 100)
+                    .background(Color.white)
+
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                if favoritesViewModel.isFavorite(product) {
+                                    favoritesViewModel.removeFromFavorites(product)
+                                } else {
+                                    favoritesViewModel.addToFavorites(product)
+                                }
+                            }) {
+                                Image(systemName: favoritesViewModel.isFavorite(product) ? "heart.fill" : "heart")
+                                    .foregroundColor(favoritesViewModel.isFavorite(product) ? .red : .gray)
+                                    .padding()
+                            }
+                        }
+                        Spacer()
+                    }
                 }
+                Spacer()
             }
-            .padding(.horizontal, 100)
-            .background(Color.white)
-            
             .padding()
+
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack {
@@ -86,7 +104,7 @@ struct DetailView: View {
                         .frame(width: 50, height: 50)
                         .shadow(radius: 5)
                     }
-                    
+
                     HStack {
                         Text("Preis:")
                             .font(.headline)
@@ -97,25 +115,25 @@ struct DetailView: View {
                             .foregroundColor(.primary)
                     }
                     .padding(.vertical, 5)
-                    
+
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Beschreibung:")
                             .font(.headline)
                             .foregroundColor(.secondary)
-                        
+
                         Text(product.description)
                             .font(.body)
                             .foregroundColor(.primary)
                     }
                     .padding(.top, 10)
-                    
+
                     Divider()
-                    
+
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Bewertungen:")
                             .font(.headline)
                             .foregroundColor(.secondary)
-                        
+
                         ForEach(reviews) { review in
                             VStack(alignment: .leading) {
                                 HStack {
@@ -139,14 +157,14 @@ struct DetailView: View {
                         }
                     }
                     .padding(.top, 10)
-                    
+
                     Divider()
-                    
+
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Deine Bewertung:")
                             .font(.headline)
                             .foregroundColor(.secondary)
-                        
+
                         HStack {
                             ForEach(1...5, id: \.self) { index in
                                 Image(systemName: index <= rating ? "star.fill" : "star")
@@ -156,7 +174,7 @@ struct DetailView: View {
                                     }
                             }
                         }
-                        
+
                         Button(action: {
                             showReviewSheet = true
                         }) {
@@ -171,13 +189,13 @@ struct DetailView: View {
                                 Text("Bewertung abgeben")
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
-                                
+
                                 TextEditor(text: $reviewText)
                                     .frame(height: 100)
                                     .padding()
-                                
+
                                 Button("Abschicken") {
-                                    // Hier könntest du die Bewertung speichern oder verarbeiten
+                                    
                                     showReviewSheet = false
                                     showToast = true
                                     toastMessage = "Bewertung abgeschickt!"
@@ -186,14 +204,14 @@ struct DetailView: View {
                                 .background(Color.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(20)
-                                
+
                                 Spacer()
                             }
                             .presentationDetents([.fraction(0.5)]) // Sheet nimmt 50% des Bildschirms ein
                         }
                     }
                     .padding(.top, 10)
-                    
+
                     if showToast {
                         Text(toastMessage)
                             .padding()
@@ -222,21 +240,21 @@ struct DetailView: View {
                 Text("Bestellen")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                
+
                 Picker("Farbe", selection: $selectedColor) {
                     ForEach(colors, id: \.self) { color in
                         Text(color).tag(color)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                
+
                 Picker("Größe", selection: $selectedSize) {
                     ForEach(sizes, id: \.self) { size in
                         Text(size).tag(size)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                
+
                 HStack {
                     Spacer()
                     Button(action: {
@@ -263,7 +281,7 @@ struct DetailView: View {
                     Spacer()
                 }
                 .padding()
-                
+
                 Button("Bestellung zum Warenkorb abschicken") {
                     cartViewModel.addToCart(product, quantity: orderQuantity, color: selectedColor, size: selectedSize)
                     showOrderSheet = false
@@ -272,7 +290,7 @@ struct DetailView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(20)
-                
+
                 Spacer()
             }
             .presentationDetents([.fraction(0.5)]) // Sheet nimmt 50% des Bildschirms ein
@@ -283,6 +301,7 @@ struct DetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(product: Product(id: 1, title: "Sample Product", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"))
-            .environmentObject(CartViewModel()) // Add environmentObject for preview
+            .environmentObject(CartViewModel())
+            .environmentObject(FavoritesViewModel()) // Add environmentObject for preview
     }
 }

@@ -11,6 +11,7 @@ struct ContentView: View {
     @StateObject private var cartViewModel = CartViewModel()
     @StateObject private var ordersViewModel = OrdersViewModel()
     
+    
     @State private var profile = Profile(
         name: "John",
         lastName: "Doe",

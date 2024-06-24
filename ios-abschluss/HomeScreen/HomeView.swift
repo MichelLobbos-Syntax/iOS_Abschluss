@@ -9,8 +9,13 @@ struct HomeView: View {
     var body: some View {
         
         NavigationStack {
-            VStack(spacing: 8) {
+            
+            ZStack{
+//                AnimatedBackground()
                 
+            VStack(spacing: 8) {
+                SearchBarView(text: $viewModel.searchText)
+                    .padding(.horizontal)
                 // Filter Buttons
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
@@ -26,18 +31,16 @@ struct HomeView: View {
                 // Product Grid
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
-                        ForEach(viewModel.filteredProducts) { product in
-                            NavigationLink(destination: DetailView(product: product)) {
-                                ProductCardView(product: product)
+                        ForEach(viewModel.filteredProducts.indices, id: \.self) { index in
+                            NavigationLink(destination: DetailView(products: viewModel.filteredProducts, selectedIndex: index)) {
+                                ProductCardView(product: viewModel.filteredProducts[index])
                             }
                         }
                     }
                     .padding(.horizontal)
                 }
             }
-//            .navigationTitle("Abschluss")
             .toolbar {
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: FavoritesListView()) {
                         Image(systemName: "heart.fill")
@@ -45,7 +48,7 @@ struct HomeView: View {
                 }
             }
         }
-        .searchable(text: $viewModel.searchText)
+        }
         .background(Color(.systemBackground)) // Use system background color
     }
 }
@@ -58,8 +61,6 @@ struct HomeView_Previews: PreviewProvider {
                 .environmentObject(FavoritesViewModel())
                 .environmentObject(CartViewModel())
                 .environment(\.colorScheme, .light) // Preview in light mode
-//            HomeView()
-//                .environment(\.colorScheme, .dark) // Preview in dark mode
         }
     }
 }

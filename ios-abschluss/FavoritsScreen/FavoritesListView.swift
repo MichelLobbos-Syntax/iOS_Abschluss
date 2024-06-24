@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavoritesListView: View {
     @EnvironmentObject var favoritesViewModel: FavoritesViewModel
-    
+
     var body: some View {
         VStack {
             if favoritesViewModel.favoriteProducts.isEmpty {
@@ -18,10 +18,10 @@ struct FavoritesListView: View {
                     .foregroundColor(.gray)
             } else {
                 List {
-                    ForEach(favoritesViewModel.favoriteProducts) { product in
-                        NavigationLink(destination: DetailView(product: product)) {
+                    ForEach(favoritesViewModel.favoriteProducts.indices, id: \.self) { index in
+                        NavigationLink(destination: DetailView(products: favoritesViewModel.favoriteProducts, selectedIndex: index)) {
                             HStack {
-                                AsyncImage(url: URL(string: product.image)) { phase in
+                                AsyncImage(url: URL(string: favoritesViewModel.favoriteProducts[index].image)) { phase in
                                     switch phase {
                                     case .empty:
                                         ProgressView()
@@ -37,11 +37,11 @@ struct FavoritesListView: View {
                                     }
                                 }
                                 .frame(width: 50, height: 50) // Ensure the image has a fixed size
-                                
-                                Text(product.title)
+
+                                Text(favoritesViewModel.favoriteProducts[index].title)
                                     .font(.headline)
                                     .padding(.leading, 10)
-                                
+
                                 Spacer()
                             }
                             .frame(height: 60) // Fixed height for each item

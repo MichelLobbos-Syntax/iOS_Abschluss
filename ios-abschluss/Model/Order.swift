@@ -12,10 +12,15 @@ struct OrderModel: Identifiable {
     let date: Date
     let items: [CartItem]
     let totalPrice: Double
+    let customerName: String
+    let email: String
+    let address: String
+    let city: String
+    let postalCode: String
+    let paymentMethod: String
     
     // Helper method to calculate total price
     static func calculateTotalPrice(for items: [CartItem]) -> Double {
-        items.reduce(0) { $0 + $1.price * Double($1.quantity) }
+        items.reduce(0) { $0 + $1.product.price * Double($1.quantity) }
     }
 }
-

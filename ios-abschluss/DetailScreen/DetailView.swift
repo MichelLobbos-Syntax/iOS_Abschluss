@@ -16,8 +16,11 @@ struct Review: Identifiable {
     let text: String
 }
 
+import SwiftUI
+
 struct DetailView: View {
-    let product: Product
+    let products: [Product]
+    @State var selectedIndex: Int
     @State private var showOrderSheet: Bool = false
     @State private var orderQuantity: Int = 1
     @State private var selectedColor: String = "Red"
@@ -27,22 +30,31 @@ struct DetailView: View {
     @State private var reviewText: String = ""
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
-
+    
     @EnvironmentObject var cartViewModel: CartViewModel
     @EnvironmentObject var favoritesViewModel: FavoritesViewModel
     
-
     let colors = ["Red", "Green", "Blue"]
     let sizes = ["S", "M", "L"]
-
-    // Beispielbewertungen
+    
+    // Example reviews
     let reviews: [Review] = [
-        Review(username: "Alice", rating: 5, text: "Tolles Produkt! Sehr zufrieden."),
-        Review(username: "Bob", rating: 4, text: "Gute Qualität, schnelle Lieferung."),
-        Review(username: "Charlie", rating: 3, text: "Nicht schlecht, könnte besser sein."),
+        Review(username: "Alice", rating: 5, text: "Great product! Very satisfied."),
+        Review(username: "Bob", rating: 4, text: "Good quality, fast delivery."),
+        Review(username: "Charlie", rating: 3, text: "Not bad, could be better."),
     ]
-
+    
     var body: some View {
+        TabView(selection: $selectedIndex) {
+            ForEach(products.indices, id: \.self) { index in
+                productDetailView(product: products[index])
+                    .tag(index)
+            }
+        }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+    }
+    
+    func productDetailView(product: Product) -> some View {
         VStack {
             HStack {
                 Spacer()
@@ -64,7 +76,7 @@ struct DetailView: View {
                     }
                     .padding(.horizontal, 100)
                     .background(Color.white)
-
+                    
                     VStack {
                         HStack {
                             Spacer()
@@ -86,7 +98,7 @@ struct DetailView: View {
                 Spacer()
             }
             .padding()
-
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack {
@@ -104,9 +116,9 @@ struct DetailView: View {
                         .frame(width: 50, height: 50)
                         .shadow(radius: 5)
                     }
-
+                    
                     HStack {
-                        Text("Preis:")
+                        Text("Price:")
                             .font(.headline)
                             .foregroundColor(.secondary)
                         Spacer()
@@ -115,25 +127,25 @@ struct DetailView: View {
                             .foregroundColor(.primary)
                     }
                     .padding(.vertical, 5)
-
+                    
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Beschreibung:")
+                        Text("Description:")
                             .font(.headline)
                             .foregroundColor(.secondary)
-
+                        
                         Text(product.description)
                             .font(.body)
                             .foregroundColor(.primary)
                     }
                     .padding(.top, 10)
-
+                    
                     Divider()
-
+                    
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Bewertungen:")
+                        Text("Reviews:")
                             .font(.headline)
                             .foregroundColor(.secondary)
-
+                        
                         ForEach(reviews) { review in
                             VStack(alignment: .leading) {
                                 HStack {
@@ -157,14 +169,14 @@ struct DetailView: View {
                         }
                     }
                     .padding(.top, 10)
-
+                    
                     Divider()
-
+                    
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Deine Bewertung:")
+                        Text("Your Review:")
                             .font(.headline)
                             .foregroundColor(.secondary)
-
+                        
                         HStack {
                             ForEach(1...5, id: \.self) { index in
                                 Image(systemName: index <= rating ? "star.fill" : "star")
@@ -174,11 +186,11 @@ struct DetailView: View {
                                     }
                             }
                         }
-
+                        
                         Button(action: {
                             showReviewSheet = true
                         }) {
-                            Text("Eine Bewertung abgeben")
+                            Text("Leave a review")
                                 .font(.headline)
                                 .foregroundColor(.blue)
                         }
@@ -186,32 +198,31 @@ struct DetailView: View {
                             VStack(spacing: 20) {
                                 Spacer()
                                 Spacer()
-                                Text("Bewertung abgeben")
+                                Text("Leave a review")
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
-
+                                
                                 TextEditor(text: $reviewText)
                                     .frame(height: 100)
                                     .padding()
-
-                                Button("Abschicken") {
-                                    
+                                
+                                Button("Submit") {
                                     showReviewSheet = false
                                     showToast = true
-                                    toastMessage = "Bewertung abgeschickt!"
+                                    toastMessage = "Review submitted!"
                                 }
                                 .padding()
                                 .background(Color.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(20)
-
+                                
                                 Spacer()
                             }
-                            .presentationDetents([.fraction(0.5)]) // Sheet nimmt 50% des Bildschirms ein
+                            .presentationDetents([.fraction(0.5)]) // Sheet takes 50% of the screen
                         }
                     }
                     .padding(.top, 10)
-
+                    
                     if showToast {
                         Text(toastMessage)
                             .padding()
@@ -237,24 +248,24 @@ struct DetailView: View {
             VStack(spacing: 20) {
                 Spacer()
                 Spacer()
-                Text("Bestellen")
+                Text("Order")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-
-                Picker("Farbe", selection: $selectedColor) {
+                
+                Picker("Color", selection: $selectedColor) {
                     ForEach(colors, id: \.self) { color in
                         Text(color).tag(color)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-
-                Picker("Größe", selection: $selectedSize) {
+                
+                Picker("Size", selection: $selectedSize) {
                     ForEach(sizes, id: \.self) { size in
                         Text(size).tag(size)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-
+                
                 HStack {
                     Spacer()
                     Button(action: {
@@ -281,8 +292,8 @@ struct DetailView: View {
                     Spacer()
                 }
                 .padding()
-
-                Button("Bestellung zum Warenkorb abschicken") {
+                
+                Button("Add to cart") {
                     cartViewModel.addToCart(product, quantity: orderQuantity, color: selectedColor, size: selectedSize)
                     showOrderSheet = false
                 }
@@ -290,18 +301,20 @@ struct DetailView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(20)
-
+                
                 Spacer()
             }
-            .presentationDetents([.fraction(0.5)]) // Sheet nimmt 50% des Bildschirms ein
+            .presentationDetents([.fraction(0.5)]) // Sheet takes 50% of the screen
         }
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(product: Product(id: 1, title: "Sample Product", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"))
-            .environmentObject(CartViewModel())
-            .environmentObject(FavoritesViewModel()) // Add environmentObject for preview
+        DetailView(products: [Product(id: 1, title: "Sample Product 1", price: 29.99, description: "This is a sample product description.", category: "electronics", image: "https://via.placeholder.com/150"),
+                              Product(id: 2, title: "Sample Product 2", price: 49.99, description: "This is another sample product description.", category: "jewelery", image: "https://via.placeholder.com/150")],
+                   selectedIndex: 0)
+        .environmentObject(CartViewModel())
+        .environmentObject(FavoritesViewModel())
     }
 }
